@@ -1,0 +1,16 @@
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.numeric_std.ALL;
+
+ENTITY xor32 IS
+    PORT (
+        a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        o : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+    );
+END ENTITY xor32;
+
+ARCHITECTURE behavioral OF xor32 IS
+BEGIN
+    o <= (a NAND (b NAND b)) NAND ((a NAND a) NAND b);
+END ARCHITECTURE behavioral;
