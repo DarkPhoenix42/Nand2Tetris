@@ -22,22 +22,22 @@ BEGIN
         a <= '0';
         b <= '0';
         WAIT FOR 10 ns;
-        ASSERT (s = '0' AND c = '0') REPORT "Test failed!" SEVERITY ERROR;
+        ASSERT (s = '0' AND c = '0') REPORT "Test 1 failed!" SEVERITY ERROR;
 
         a <= '0';
         b <= '1';
         WAIT FOR 10 ns;
-        ASSERT (s = '1' AND c = '0') REPORT "Test failed!" SEVERITY ERROR;
+        ASSERT (s = '1' AND c = '0') REPORT "Test 2 failed!" SEVERITY ERROR;
 
         a <= '1';
         b <= '0';
         WAIT FOR 10 ns;
-        ASSERT (s = '1' AND c = '0') REPORT "Test failed!" SEVERITY ERROR;
+        ASSERT (s = '1' AND c = '0') REPORT "Test 3 failed!" SEVERITY ERROR;
 
         a <= '1';
         b <= '1';
         WAIT FOR 10 ns;
-        ASSERT (s = '0' AND c = '1') REPORT "Test failed!" SEVERITY ERROR;
+        ASSERT (s = '0' AND c = '1') REPORT "Test 4 failed!" SEVERITY ERROR;
 
         WAIT;
     END PROCESS;
