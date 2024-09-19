@@ -1,0 +1,15 @@
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.numeric_std.ALL;
+
+ENTITY inc32 IS
+    PORT (
+        a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        o : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+    );
+END ENTITY;
+
+ARCHITECTURE behavioral OF inc32 IS
+BEGIN
+    o <= STD_LOGIC_VECTOR(unsigned(a) + 1);
+END ARCHITECTURE;
