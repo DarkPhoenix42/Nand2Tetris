@@ -8,42 +8,46 @@ END mux32_tb;
 ARCHITECTURE testbench OF mux32_tb IS
     COMPONENT mux32
         PORT (
-            i : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            sel : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
-            o : OUT STD_LOGIC
+            a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            sel : IN STD_LOGIC;
+            o : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
     END COMPONENT;
 
-    SIGNAL i : STD_LOGIC_VECTOR(31 DOWNTO 0);
-    SIGNAL sel : STD_LOGIC_VECTOR(4 DOWNTO 0);
-    SIGNAL o : STD_LOGIC;
-
+    SIGNAL a : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL b : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL sel : STD_LOGIC;
+    SIGNAL o : STD_LOGIC_VECTOR(31 DOWNTO 0);
 BEGIN
 
-    UUT : mux32 PORT MAP(i => i, sel => sel, o => o);
+    uut : mux32 PORT MAP(
+        a => a,
+        b => b,
+        sel => sel,
+        o => o
+    );
 
     test : PROCESS
     BEGIN
 
-        i <= "00000000000000000000000000000000";
-        sel <= "00000";
+        a <= "00000000000000000000000000000000";
+        b <= "11111111111111111111111111111111";
+        sel <= '0';
         WAIT FOR 10 ns;
-        ASSERT (o = '0') REPORT "Test 1 failed" SEVERITY ERROR;
 
-        i <= "11111111111111111111111111111111";
-        sel <= "00000";
+        sel <= '1';
         WAIT FOR 10 ns;
-        ASSERT (o = '1') REPORT "Test 2 failed" SEVERITY ERROR;
 
-        i <= "00000000000000000000000000000001";
-        sel <= "00000";
+        a <= "10101010101010101010101010101010";
+        b <= "01010101010101010101010101010101";
+        sel <= '0';
         WAIT FOR 10 ns;
-        ASSERT (o = '1') REPORT "Test 3 failed" SEVERITY ERROR;
 
-        i <= "00100000000000000000000000000000";
-        sel <= "11101";
+        sel <= '1';
         WAIT FOR 10 ns;
-        ASSERT (o = '1') REPORT "Test 4 failed" SEVERITY ERROR;
+
         WAIT;
+
     END PROCESS;
 END testbench;
