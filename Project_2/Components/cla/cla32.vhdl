@@ -18,14 +18,11 @@ BEGIN
     p <= a XOR b;
     g <= a AND b;
 
-    carry_gen : PROCESS (p, g, cin)
-    BEGIN
-        c_int(0) <= cin;
-        FOR i IN 0 TO 31 LOOP
-            c_int(i + 1) <= g(i) OR (p(i) AND c_int(i));
-        END LOOP;
-    END PROCESS;
+    c_int(0) <= cin;
+    inst : FOR i IN 1 TO 32 GENERATE
+        c_int(i) <= g(i - 1) OR (p(i - 1) AND c_int(i - 1));
+    END GENERATE;
 
     sum <= p XOR c_int(31 DOWNTO 0);
     cout <= c_int(32);
-END ARCHITECTURE;
+END ARCHITECTURE;   
