@@ -45,6 +45,30 @@ BEGIN
         shift <= "11111";
         WAIT FOR 10 ns;
         ASSERT result = X"00000002" REPORT "Test case 4 failed" SEVERITY ERROR;
+
+        -- Test case 5
+        a <= X"12345678";
+        shift <= "00100";
+        WAIT FOR 10 ns;
+        ASSERT result = X"81234567" REPORT "Test case 5 failed" SEVERITY ERROR;
+
+        -- Test case 6
+        a <= X"12345678";
+        shift <= "00010";
+        WAIT FOR 10 ns;
+        ASSERT result = X"048D159E" REPORT "Test case 6 failed" SEVERITY ERROR;
+
+        -- Test case 7
+        a <= X"12345678";
+        shift <= "01000";
+        WAIT FOR 10 ns;
+        ASSERT result = X"78123456" REPORT "Test case 7 failed" SEVERITY ERROR;
+
+        -- Test case 8
+        a <= X"12345678";
+        shift <= "10000";
+        WAIT FOR 10 ns;
+        ASSERT result = X"56781234" REPORT "Test case 8 failed" SEVERITY ERROR;
         WAIT;
     END PROCESS;
 END testbench;
