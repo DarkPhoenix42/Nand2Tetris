@@ -2,11 +2,11 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.numeric_std.ALL;
 
-ENTITY rol32_tb IS
-END rol32_tb;
+ENTITY asr32_tb IS
+END asr32_tb;
 
-ARCHITECTURE testbench OF rol32_tb IS
-    COMPONENT rol32 IS
+ARCHITECTURE testbench OF asr32_tb IS
+    COMPONENT asr32 IS
         PORT (
             a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             shift : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -18,7 +18,7 @@ ARCHITECTURE testbench OF rol32_tb IS
     SIGNAL shift : STD_LOGIC_VECTOR(4 DOWNTO 0);
     SIGNAL result : STD_LOGIC_VECTOR(31 DOWNTO 0);
 BEGIN
-    uut : rol32 PORT MAP(a, shift, result);
+    uut : asr32 PORT MAP(a, shift, result);
 
     PROCESS
     BEGIN
@@ -26,19 +26,19 @@ BEGIN
         a <= X"00000001";
         shift <= "00001";
         WAIT FOR 10 ns;
-        ASSERT result = X"00000002" REPORT "Test case 1 failed" SEVERITY ERROR;
+        ASSERT result = X"00000000" REPORT "Test case 1 failed" SEVERITY ERROR;
 
         -- Test case 2
         a <= X"80000000";
         shift <= "00001";
         WAIT FOR 10 ns;
-        ASSERT result = X"00000001" REPORT "Test case 2 failed" SEVERITY ERROR;
+        ASSERT result = X"C0000000" REPORT "Test case 2 failed" SEVERITY ERROR;
 
         -- Test case 3
         a <= X"12345678";
         shift <= "00010";
         WAIT FOR 10 ns;
-        ASSERT result = X"48D159E0" REPORT "Test case 3 failed" SEVERITY ERROR;
+        ASSERT result = X"048D159E" REPORT "Test case 3 failed" SEVERITY ERROR;
 
         -- Test case 4
         a <= X"FFFFFFFF";
@@ -50,24 +50,25 @@ BEGIN
         a <= X"00000001";
         shift <= "11111";
         WAIT FOR 10 ns;
-        ASSERT result = X"80000000" REPORT "Test case 5 failed" SEVERITY ERROR;
+        ASSERT result = X"00000000" REPORT "Test case 5 failed" SEVERITY ERROR;
 
         -- Test case 6
-        a <= X"12345678";
-        shift <= "00100";
+        a <= X"A0000000";
+        shift <= "11110";
         WAIT FOR 10 ns;
-        ASSERT result = X"23456781" REPORT "Test case 6 failed" SEVERITY ERROR;
+        ASSERT result = X"FFFFFFFE" REPORT "Test case 6 failed" SEVERITY ERROR;
 
         -- Test case 7
-        shift <= "01000";
+        a <= X"00000000";
+        shift <= "00000";
         WAIT FOR 10 ns;
-        ASSERT result = X"34567812" REPORT "Test case 7 failed" SEVERITY ERROR;
+        ASSERT result = X"00000000" REPORT "Test case 7 failed" SEVERITY ERROR;
 
         -- Test case 8
-        shift <= "10000";
+        a <= X"0000000A";
+        shift <= "00010";
         WAIT FOR 10 ns;
-        ASSERT result = X"56781234" REPORT "Test case 8 failed" SEVERITY ERROR;
-
+        ASSERT result = X"00000002" REPORT "Test case 8 failed" SEVERITY ERROR;
         WAIT;
     END PROCESS;
 END testbench;

@@ -22,23 +22,39 @@ BEGIN
 
     PROCESS
     BEGIN
+        -- Test case 1
         a <= "11111111111111111111111111111111";
         shift <= "00001";
         WAIT FOR 10 ns;
         ASSERT result = "11111111111111111111111111111110" REPORT "Test failed!" SEVERITY ERROR;
 
+        -- Test case 2
         shift <= "00010";
         WAIT FOR 10 ns;
         ASSERT result = "11111111111111111111111111111100" REPORT "Test failed!" SEVERITY ERROR;
 
+        -- Test case 3
         shift <= "00011";
         WAIT FOR 10 ns;
         ASSERT result = "11111111111111111111111111111000" REPORT "Test failed!" SEVERITY ERROR;
 
+        -- Test case 4
         a <= "00000000000000000000000000000001";
         shift <= "00001";
         WAIT FOR 10 ns;
         ASSERT result = "00000000000000000000000000000010" REPORT "Test failed!" SEVERITY ERROR;
+
+        -- Test case 5
+        a <= X"F0F0F0F0";
+        shift <= "00010";
+        WAIT FOR 10 ns;
+        ASSERT result = X"C3C3C3C0" REPORT "Test failed!" SEVERITY ERROR;
+
+        -- Test case 6
+        a <= X"00000000";
+        shift <= "00000";
+        WAIT FOR 10 ns;
+        ASSERT result = X"00000000" REPORT "Test failed!" SEVERITY ERROR;
 
         WAIT;
     END PROCESS;
