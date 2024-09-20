@@ -58,6 +58,13 @@ ARCHITECTURE behavioral OF alu IS
         );
     END COMPONENT;
 
+    COMPONENT mux32_4_2 IS
+        PORT (
+            a, b, c, d : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            sel : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+            result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+        );
+    END COMPONENT;
     COMPONENT cla32 IS
         PORT (
             a, b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -135,12 +142,11 @@ ARCHITECTURE behavioral OF alu IS
     -- Adder/Subtractor
     SIGNAL adder_a : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL adder_b : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL adder_carry_in : STD_LOGIC;
     SIGNAL adder_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL adder_carry_out : STD_LOGIC;
 
     -- Multiplier
-    SIGNAL a_msb : STD_LOGIC;
-    SIGNAL b_msb : STD_LOGIC;
     SIGNAL multiplier_result : STD_LOGIC_VECTOR(63 DOWNTO 0);
 
     -- Divider
@@ -152,33 +158,26 @@ ARCHITECTURE behavioral OF alu IS
     SIGNAL shift_b : STD_LOGIC_VECTOR(4 DOWNTO 0);
     SIGNAL lsl_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL lsr_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL lshift_result : STD_LOGIC_VECTOR(31 TO 0);
     SIGNAL asr_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL rol_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL ror_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL rot_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
     -- Logical
     SIGNAL and_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL or_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL simple_logic_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL xor_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL not_result : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
 BEGIN
-    a_msb <= a(31);
-    b_msb <= b(31);
     shift_b <= b(4 DOWNTO 0);
 
-    b_mux : mux32 PORT MAP(
-        a => b,
-        b => "00000000000000000000000000000001",
-        sel => flags(0),
-
-        result => adder_b
-    );
-
     adder : cla32 PORT MAP(
-        a => a,
+        a => adder_a,
         b => adder_b,
-        cin => '0',
+        cin => adder_carry_in,
 
         sum => adder_result,
         cout => adder_carry_out
@@ -234,4 +233,18 @@ BEGIN
 
         result => ror_result
     );
+
+    and_result <= a AND b;
+    or_result <= a OR b;
+    xor_result <= a XOR b;
+    not_result <= NOT a;
+
+    --Input Modifiers
+    adder_a <= (flags(0) AND NOT a) OR (NOT flags(0) AND a);
+    adder_b <= (NOT flags(2) AND ((flags(1) AND NOT b) OR (NOT flags(1) AND b))) OR
+        (flags(2) AND (X"0000001"));
+    adder_carry_in <= (flags(0) OR flags(1));
+
+    -- Shifting
+
 END ARCHITECTURE;
