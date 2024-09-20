@@ -21,8 +21,8 @@ BEGIN
             remaining <= (31 DOWNTO 0 => '0');
             err <= '1';
         ELSE
-            quotient <= STD_LOGIC_VECTOR(unsigned(dividend) / unsigned(divisor));
-            remaining <= STD_LOGIC_VECTOR(unsigned(dividend) REM unsigned(divisor));
+            quotient <= STD_LOGIC_VECTOR(signed(dividend) / signed(divisor));
+            remaining <= STD_LOGIC_VECTOR(signed(dividend) REM signed(divisor));
             err <= '0';
         END IF;
     END PROCESS;
