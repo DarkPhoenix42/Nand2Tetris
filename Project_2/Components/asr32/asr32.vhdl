@@ -16,7 +16,7 @@ ARCHITECTURE behavioral OF asr32 IS
             a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             sel : IN STD_LOGIC;
-            o : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+            result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -33,7 +33,7 @@ BEGIN
             a => int_result(i),
             b => (2 ** i - 1 DOWNTO 0 => msb) & int_result(i)(31 DOWNTO 2 ** i),
             sel => shift(i),
-            o => int_result(i + 1)
+            result => int_result(i + 1)
         );
     END GENERATE;
 

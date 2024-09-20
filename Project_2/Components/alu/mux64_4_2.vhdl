@@ -2,16 +2,16 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.numeric_std.ALL;
 
-ENTITY mux32 IS
+ENTITY mux64_4_2 IS
     PORT (
-        a, b, c, d : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        a, b, c, d : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
         sel : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
 
-        result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+        result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0)
     );
 END ENTITY;
 
-ARCHITECTURE behavioral OF mux32 IS
+ARCHITECTURE behavioral OF mux64_4_2 IS
 BEGIN
     PROCESS (a, b, c, d, sel)
     BEGIN

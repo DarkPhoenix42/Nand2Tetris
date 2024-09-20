@@ -16,7 +16,7 @@ ARCHITECTURE behavioral OF rol32 IS
             a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             sel : IN STD_LOGIC;
-            o : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+            result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -31,7 +31,7 @@ BEGIN
             a => int_result(i),
             b => int_result(i)(31 - 2 ** i DOWNTO 0) & int_result(i)(31 DOWNTO 31 - 2 ** i + 1),
             sel => shift(i),
-            o => int_result(i + 1)
+            result => int_result(i + 1)
         );
     END GENERATE;
 
