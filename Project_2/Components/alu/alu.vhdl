@@ -41,10 +41,10 @@ ENTITY alu IS
         flags : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 
         result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
-        carry_out : OUT STD_LOGIC;
-        overflow : OUT STD_LOGIC;
-        zero : OUT STD_LOGIC;
-        negative : OUT STD_LOGIC
+        carry_flag : OUT STD_LOGIC;
+        overflow_flag : OUT STD_LOGIC;
+        zero_flag : OUT STD_LOGIC;
+        negative_flag : OUT STD_LOGIC
     );
 
 END ENTITY;
@@ -220,7 +220,6 @@ BEGIN
     );
 
     adder_extended_result <= (31 DOWNTO 0 => '0') & adder_result;
-    carry_out <= adder_carry_out;
 
     and_result <= a AND b;
     or_result <= a OR b;
@@ -337,4 +336,14 @@ BEGIN
         sel => flags(4 DOWNTO 3),
         result => result
     );
+
+    -- Flags setting
+    --NF set if msb of result is 1
+    negative_flag <= ((flags(4)AND flags(3))AND result(63)) OR ((NOT(flags(4)AND flags(3))AND result(31)));
+    --ZF set if result is 0
+    zero_flag <= NOT(result(63) OR result(62) OR result(61) OR result(60) OR result(59) OR result(58) OR result(57) OR result(56) OR result(55) OR result(54) OR result(53) OR result(52) OR result(51) OR result(50) OR result(49) OR result(48) OR result(47) OR result(46) OR result(45) OR result(44) OR result(43) OR result(42) OR result(41) OR result(40) OR result(39) OR result(38) OR result(37) OR result(36) OR result(35) OR result(34) OR result(33) OR result(32) OR result(31) OR result(30) OR result(29) OR result(28) OR result(27) OR result(26) OR result(25) OR result(24) OR result(23) OR result(22) OR result(21) OR result(20) OR result(19) OR result(18) OR result(17) OR result(16) OR result(15) OR result(14) OR result(13) OR result(12) OR result(11) OR result(10) OR result(9) OR result(8) OR result(7) OR result(6) OR result(5) OR result(4) OR result(3) OR result(2) OR result(1) OR result(0));
+    --CF set if carry generated from msb
+    carry_flag <= (NOT flags(4) AND NOT flags(3)) AND adder_carry_out;
+    --OF set if result after add/sub is overflowed
+    overflow_flag <= (NOT(flags(4) AND flags(3))) AND ((a(31) AND b(31) AND NOT result(31)) OR (NOT a(31) AND NOT b(31) AND result(31)));
 END ARCHITECTURE;
