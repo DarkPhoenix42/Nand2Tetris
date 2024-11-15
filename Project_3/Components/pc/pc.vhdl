@@ -21,7 +21,7 @@ BEGIN
             ELSIF load = '1' THEN
                 data_out <= data_in;
             ELSIF inc = '1' THEN
-                data_out <= STD_LOGIC_VECTOR(unsigned(data_out) + 1);
+                data_out <= STD_LOGIC_VECTOR(UNSIGNED(data_out) + 4);
             END IF;
         END IF;
     END PROCESS;

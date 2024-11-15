@@ -28,22 +28,22 @@ BEGIN
         a <= (OTHERS => '1');
         b <= (OTHERS => '1');
         WAIT FOR 10 ns;
-        ASSERT o = (OTHERS => '0') REPORT "Test 1 failed" SEVERITY ERROR;
+        ASSERT o = x"00000000" REPORT "Test 1 failed" SEVERITY ERROR;
 
         a <= (OTHERS => '0');
         b <= (OTHERS => '1');
         WAIT FOR 10 ns;
-        ASSERT o = (OTHERS => '1') REPORT "Test 2 failed" SEVERITY ERROR;
+        ASSERT o = x"FFFFFFFF" REPORT "Test 2 failed" SEVERITY ERROR;
 
         a <= (OTHERS => '1');
         b <= (OTHERS => '0');
         WAIT FOR 10 ns;
-        ASSERT o = (OTHERS => '1') REPORT "Test 3 failed" SEVERITY ERROR;
+        ASSERT o = x"FFFFFFFF" REPORT "Test 3 failed" SEVERITY ERROR;
 
         a <= (OTHERS => '0');
         b <= (OTHERS => '0');
         WAIT FOR 10 ns;
-        ASSERT o = (OTHERS => '0') REPORT "Test 4 failed" SEVERITY ERROR;
+        ASSERT o = x"00000000" REPORT "Test 4 failed" SEVERITY ERROR;
 
         a <= "10101010101010101010101010101010";
         b <= "01010101010101010101010101010101";

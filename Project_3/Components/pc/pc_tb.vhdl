@@ -18,7 +18,7 @@ ARCHITECTURE testbench OF pc_tb IS
     SIGNAL data_in : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
     SIGNAL data_out : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
 
-    CONSTANT clk_period : TIME := 1 ns;
+    CONSTANT clk_period : TIME := 5 ns;
 
 BEGIN
     uut : pc PORT MAP(
@@ -38,33 +38,29 @@ BEGIN
         load <= '0';
         inc <= '0';
         data_in <= (OTHERS => '0');
-        WAIT FOR 10 ns;
+        WAIT FOR 20 ns;
         ASSERT data_out = "00000000000000000000000000000000" REPORT "Test 1 failed" SEVERITY error;
-        REPORT "Test 1 passed";
 
         reset <= '0';
         load <= '1';
         inc <= '0';
         data_in <= (OTHERS => '1');
-        WAIT FOR 10 ns;
+        WAIT FOR 20 ns;
         ASSERT data_out = "11111111111111111111111111111111" REPORT "Test 2 failed" SEVERITY error;
-        REPORT "Test 2 passed";
 
-        reset <= '0';
+        reset <= '1';
         load <= '0';
-        inc <= '1';
-        data_in <= (OTHERS => '1');
-        WAIT FOR 10 ns;
+        inc <= '0';
+        data_in <= (OTHERS => '0');
+        WAIT FOR 20 ns;
         ASSERT data_out = "00000000000000000000000000000000" REPORT "Test 3 failed" SEVERITY error;
-        REPORT "Test 3 passed";
 
         reset <= '0';
         load <= '0';
         inc <= '1';
-        data_in <= (OTHERS => '1');
-        WAIT FOR 10 ns;
-        ASSERT data_out = "00000000000000000000000000000001" REPORT "Test 4 failed" SEVERITY error;
-        REPORT "Test 4 passed";
+        data_in <= (OTHERS => '0');
+        WAIT FOR 15 ns;
+        ASSERT data_out = "00000000000000000000000000000100" REPORT "Test 4 failed" SEVERITY error;
 
         stop;
     END PROCESS;

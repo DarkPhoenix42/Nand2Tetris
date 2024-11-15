@@ -37,25 +37,21 @@ BEGIN
         data_in <= (OTHERS => '0');
         WAIT FOR 10 ns;
         ASSERT data_out = "00000000000000000000000000000000" REPORT "Test 1 failed" SEVERITY error;
-        REPORT "Test 1 passed";
 
         load <= '1';
         data_in <= (OTHERS => '1');
         WAIT FOR 10 ns;
         ASSERT data_out = "11111111111111111111111111111111" REPORT "Test 2 failed" SEVERITY error;
-        REPORT "Test 2 passed";
 
         load <= '0';
         data_in <= (OTHERS => '1');
         WAIT FOR 10 ns;
         ASSERT data_out = "11111111111111111111111111111111" REPORT "Test 3 failed" SEVERITY error;
-        REPORT "Test 3 passed";
 
         load <= '1';
         data_in <= (OTHERS => '0');
         WAIT FOR 10 ns;
         ASSERT data_out = "00000000000000000000000000000000" REPORT "Test 4 failed" SEVERITY error;
-        REPORT "Test 4 passed";
 
         stop;
     END PROCESS;

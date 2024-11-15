@@ -9,7 +9,7 @@ ENTITY ram64k IS
         unit_row_address, unit_column_address : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 
         data_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-        data_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+        data_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
 END ram64k;
 
@@ -22,4 +22,6 @@ ARCHITECTURE ram64k_arch OF ram64k IS
             data_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
     END COMPONENT;
+
+BEGIN
 END ram64k_arch;

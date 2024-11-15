@@ -32,25 +32,21 @@ BEGIN
         i <= '0';
         WAIT FOR 10 ns;
         ASSERT data = '0' REPORT "Test 1 failed" SEVERITY ERROR;
-        REPORT "Test 1 passed";
 
         load <= '1';
         i <= '1';
         WAIT FOR 10 ns;
         ASSERT data = '1' REPORT "Test 2 failed" SEVERITY ERROR;
-        REPORT "Test 2 passed";
 
         load <= '0';
         i <= '1';
         WAIT FOR 10 ns;
         ASSERT data = '1' REPORT "Test 3 failed" SEVERITY ERROR;
-        REPORT "Test 3 passed";
 
         load <= '1';
         i <= '0';
         WAIT FOR 10 ns;
         ASSERT data = '0' REPORT "Test 4 failed" SEVERITY ERROR;
-        REPORT "Test 4 passed";
 
         stop;
     END PROCESS;
