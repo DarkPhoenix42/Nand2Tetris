@@ -2,26 +2,27 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.numeric_std.ALL;
 
-ENTITY ram1k IS
+ENTITY ram256k IS
     GENERIC (
-        dimension : INTEGER := 16;
-        address_size : INTEGER := 8
+        size : INTEGER := 256;
+        address_size : INTEGER := 8;
+        cell_size : INTEGER := 32
     );
 
     PORT (
         clk, reset, load : IN STD_LOGIC;
-        row_address : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-        column_address : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-        data_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        row_address : IN STD_LOGIC_VECTOR(address_size - 1 DOWNTO 0);
+        column_address : IN STD_LOGIC_VECTOR(address_size - 1 DOWNTO 0);
+        data_in : IN STD_LOGIC_VECTOR(cell_size - 1 DOWNTO 0);
 
-        data_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+        data_out : OUT STD_LOGIC_VECTOR(cell_size - 1 DOWNTO 0)
     );
 
-END ENTITY ram1k;
+END ENTITY ram256k;
 
-ARCHITECTURE ram1k_arch OF ram1k IS
-    TYPE ram_row IS ARRAY (0 TO dimension - 1) OF STD_LOGIC_VECTOR(31 DOWNTO 0);
-    TYPE ram_type IS ARRAY (0 TO dimension - 1) OF ram_row;
+ARCHITECTURE ram256k_arch OF ram256k IS
+    TYPE ram_row IS ARRAY (0 TO size - 1) OF STD_LOGIC_VECTOR(cell_size - 1 DOWNTO 0);
+    TYPE ram_type IS ARRAY (0 TO size - 1) OF ram_row;
     SIGNAL ram : ram_type;
 
 BEGIN
@@ -36,4 +37,4 @@ BEGIN
             data_out <= ram(to_integer(unsigned(row_address)))(to_integer(unsigned(column_address)));
         END IF;
     END PROCESS;
-END ARCHITECTURE ram1k_arch;
+END ARCHITECTURE ram256k_arch;
